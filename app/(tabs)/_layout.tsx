@@ -1,9 +1,13 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
+import { Text } from 'react-native';
+import CameraSymbol from '@/components/ui/CameraSymbol';
+import tw from 'tailwind-react-native-classnames';
 
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import CookingSymbol from '@/components/ui/CookingSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -34,10 +38,17 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="camera"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "",
+          tabBarIcon: ({ color }) => <CameraSymbol></CameraSymbol>,
+        }}
+      />
+      <Tabs.Screen
+        name="recipes"
+        options={{
+          title: 'Recipes',
+          tabBarIcon: ({ color }) => <CookingSymbol></CookingSymbol>,
         }}
       />
     </Tabs>
