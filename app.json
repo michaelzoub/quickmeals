@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "HelloWorld",
-    "slug": "expo-template-default",
+    "name": "QuickMeals",
+    "slug": "quickmeals",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,13 +9,15 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.wenkafkaorg.quickmeals"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.wenkafkaorg.quickmeals"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +38,18 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "04749e26-feaf-4f08-b7ac-a84c3e50cc64"
+      }
+    },
+    "owner": "wenkafka-org",
+    "updates": {
+      "url": "https://u.expo.dev/04749e26-feaf-4f08-b7ac-a84c3e50cc64"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }
