@@ -1,29 +1,38 @@
 import { Image, StyleSheet, Platform, ScrollView } from 'react-native';
 import tw from "tailwind-react-native-classnames"
 import { View } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useAtom } from 'jotai';
+import { recipeArrayAtom } from '../atoms/recipes';
+import { Text } from 'react-native';
 
 const fakeArray = [0,0,0,0,0,0,0]
 
 
 export default function HomeScreen() {
+
+  const [recipes] = useAtom(recipeArrayAtom);
+
   return (
-      <View style={tw`flex flex-col h-full px-2 bg-white`}>
-        <View style={tw`m-2 rounded-lg shadow-inner p-10 bg-zinc-200`}>
-          <ThemedText>Test</ThemedText>
+      <View style={tw`flex flex-col h-full px-4 pt-10 bg-white`}>
+        <View style={styles.titleContainer}>
+          <ThemedText style={styles.title}>QuickMeals</ThemedText>
         </View>
         <ThemedView>
+          <ScrollView style={styles.recipesContainer}>
           <ThemedText style={tw`text-xl font-semibold`}>Featured Recipes</ThemedText>
-          <ScrollView style={{horizontal: true}}>
             {
-              fakeArray.map((e) =>
-                <ThemedText>test</ThemedText>
+              recipes.map((e) =>
+                <View>
+                  <Text>{e?.recipeName}</Text>
+                  <Image src={e?.imageUrl}></Image>
+                </View>
               )
             }
+            <View style={ (recipes.length == 0) ? "" : ""  }>
+              <Text style={styles.noRecipesText}>No recipes yet! Head to the camera tab to get started!</Text>
+            </View>
           </ScrollView>
         </ThemedView>
       </View>
@@ -31,11 +40,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
   stepContainer: {
     gap: 8,
     marginBottom: 8,
@@ -47,4 +51,22 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
+  recipesContainer: {
+    width: 'auto',
+    backgroundColor: 'lightgrey',
+    padding: 10,
+    borderRadius: 10
+
+  },
+  titleContainer: {
+    margin: 14,
+  },
+  title: {
+    fontSize: 26,
+    color: 'black',
+    fontWeight: '500'
+  },
+  noRecipesText: {
+    color: 'grey'
+  }
 });

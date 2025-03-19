@@ -1,0 +1,1 @@
+export const endpoint: string = (process.env.API_ENDPOINT || "");

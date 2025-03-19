@@ -5,6 +5,8 @@ import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { useEffect, useRef, useState } from "react";
 import { Image } from "expo-image";
 import { sendImageToOpenAI } from "../api/api";
+import { useAtom } from "jotai";
+import { recipeAtom } from "../atoms/recipes";
 
 //if i want to render image: <Image src={{uri}}/>
 
@@ -13,6 +15,7 @@ const containerStlye = `flex flex-col h-full px-2 bg-white items-center justify-
 export default function CameraPage() {
 
     const [permission, requestPermission] = useCameraPermissions();
+    const [recipe, setRecipe] = useAtom(recipeAtom);
     const [uri, setUri] = useState<string | null>(null);
 
     const cameraRef = useRef<CameraView>(null);
@@ -39,7 +42,17 @@ export default function CameraPage() {
       }
 
       async function sendReceivePicture() {
-        const information = await sendImageToOpenAI(uri)
+        const information = await sendImageToOpenAI(uri);
+        console.log(information);
+        //set atoms so it can later be stored in app cache
+        setRecipe({
+          recipeName: information.recipeName,
+          ingredients: information.ingredients,
+          time: information.time,
+          direction: information.direction,
+          servings: information.servings,
+          imageUrl: information.imageUrl
+        })
       }
 
       function picture() {

@@ -3,17 +3,29 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { Text } from 'react-native';
 import CameraSymbol from '@/components/ui/CameraSymbol';
-import tw from 'tailwind-react-native-classnames';
 
 import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import HomeIcon from '@/components/ui/IconSymbol.ios';
 import CookingSymbol from '@/components/ui/CookingSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+import { getSessionStorageItem } from '../utils/localStorage';
+import { useEffect } from 'react';
+import { useAtom } from 'jotai';
+import { recipeArrayAtom } from '../atoms/recipes';
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  const [recipes, setRecipes] = useAtom(recipeArrayAtom);
+
+  //here i get initial recipes and store as atom
+  useEffect(() => {
+    const recipes = getSessionStorageItem();
+    setRecipes(recipes);
+  }, [])
 
   return (
     <Tabs
@@ -33,8 +45,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: '',
+          tabBarIcon: ({ color }) => <HomeIcon />,
         }}
       />
       <Tabs.Screen
@@ -47,7 +59,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="recipes"
         options={{
-          title: 'Recipes',
+          title: '',
           tabBarIcon: ({ color }) => <CookingSymbol></CookingSymbol>,
         }}
       />
