@@ -1,9 +1,14 @@
 import { Home } from "lucide-react"
+import { View } from "lucide-react"
 
-export default function HomeIcon() {
+type test = {
+  props: string
+}
+
+export default function HomeIcon({props}: test) {
   return (
-    <div className="flex items-center justify-center p-4">
-      <Home style={{ color: 'black' }} className="w-12 h-12 text-gray-800" />
+    <div>
+      <Home style={{ color: 'black', backgroundColor: props, padding: 6, borderRadius: 10 }} className="w-12 h-12 text-gray-800" />
     </div>
   )
 }

@@ -16,8 +16,12 @@ import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { recipeArrayAtom } from '../atoms/recipes';
 
+import { useRoute } from '@react-navigation/native';
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+
+  const route = useRoute();
 
   const [recipes, setRecipes] = useAtom(recipeArrayAtom);
 
@@ -25,42 +29,46 @@ export default function TabLayout() {
   useEffect(() => {
     const recipes = getSessionStorageItem();
     setRecipes(recipes);
-  }, [])
+  }, []);
+
+  const bgColors: Record<string, string> = {
+    index: 'white',
+    camera: 'blue',
+    recipes: 'green',
+  };
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
+        tabBarActiveTintColor: 'lightgrey',
+        tabBarInactiveTintColor: '#ffffff',
+        tabBarStyle: {
+          paddingTop: 8,
+          justifyContent: 'center',
+        }
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: '',
-          tabBarIcon: ({ color }) => <HomeIcon />,
+          tabBarIcon: ({ color }) => <HomeIcon props={color} />,
         }}
       />
       <Tabs.Screen
         name="camera"
         options={{
           title: "",
-          tabBarIcon: ({ color }) => <CameraSymbol></CameraSymbol>,
+          tabBarIcon: ({ color }) => <CameraSymbol props={color} ></CameraSymbol>,
         }}
       />
       <Tabs.Screen
         name="recipes"
         options={{
           title: '',
-          tabBarIcon: ({ color }) => <CookingSymbol></CookingSymbol>,
+          tabBarIcon: ({ color }) => <CookingSymbol props={color} ></CookingSymbol>,
         }}
       />
     </Tabs>

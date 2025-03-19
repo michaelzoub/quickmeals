@@ -19,7 +19,6 @@ export async function sendImageToOpenAI(uri: string | null) {
     const direction = data.directions;
     const servings = data?.servings;
     const imageUrl = data.imageUrl;
-    //TODO: blahblah
     const dataObject = {
         recipeName: recipeName,
         ingredients: ingredients,
