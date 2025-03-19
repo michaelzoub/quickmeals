@@ -15,7 +15,7 @@ export default function HomeScreen() {
   const [recipes] = useAtom(recipeArrayAtom);
 
   return (
-      <View style={tw`flex flex-col h-full px-4 pt-10 bg-white`}>
+      <View style={tw`flex flex-col h-full px-4 pt-2 bg-white`}>
         <View style={styles.titleContainer}>
           <ThemedText style={styles.title}>QuickMeals</ThemedText>
         </View>
@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
 
   },
   titleContainer: {
-    margin: 14,
+    marginBottom: 26,
+    marginTop: 15
   },
   title: {
     fontSize: 26,

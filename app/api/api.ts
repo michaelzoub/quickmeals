@@ -1,8 +1,13 @@
 import { endpoint } from "../data/apiEndpoint";
 
 //post function, send base64 encoded image to backend
-export async function sendImageToOpenAI(uri: string | null) {
-    const base64 = Buffer.from(uri, "binary").toString("base64");
+export async function sendImageToOpenAI(uri: Array<string> | null) {
+    let base64: Array<string> = []
+    uri?.forEach((e) => {
+        const base64string = Buffer.from(e, "binary").toString("base64");
+        base64.push(base64string);
+    })
+    //const base64 = Buffer.from(uri, "binary").toString("base64");
 
     const response = await fetch(`${endpoint}/ai`, {
         method: "POST",
@@ -13,20 +18,7 @@ export async function sendImageToOpenAI(uri: string | null) {
     })
     //i receive the recommended recipes (first i can make it just text)
     const data = await response.json();
-    const recipeName = data.recipe;
-    const ingredients = data.ingredients;
-    const time = data.time;
-    const direction = data.directions;
-    const servings = data?.servings;
-    const imageUrl = data.imageUrl;
-    const dataObject = {
-        recipeName: recipeName,
-        ingredients: ingredients,
-        time: time,
-        direction: direction,
-        servings: servings,
-        imageUrl: imageUrl
-    }
+
     //
-    return dataObject;
+    return data;
 }

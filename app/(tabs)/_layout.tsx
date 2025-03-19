@@ -46,7 +46,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: 'lightgrey',
         tabBarInactiveTintColor: '#ffffff',
         tabBarStyle: {
-          paddingTop: 8,
+          paddingTop: 4,
           justifyContent: 'center',
         }
       }}>

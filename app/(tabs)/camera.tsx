@@ -7,6 +7,8 @@ import { Image } from "expo-image";
 import { sendImageToOpenAI } from "../api/api";
 import { useAtom } from "jotai";
 import { recipeAtom } from "../atoms/recipes";
+import { recipeArrayAtom } from "../atoms/recipes";
+import { recipes } from "../types/recipe";
 
 //if i want to render image: <Image src={{uri}}/>
 
@@ -15,8 +17,8 @@ const containerStlye = `flex flex-col h-full px-2 bg-white items-center justify-
 export default function CameraPage() {
 
     const [permission, requestPermission] = useCameraPermissions();
-    const [recipe, setRecipe] = useAtom(recipeAtom);
-    const [uri, setUri] = useState<string | null>(null);
+    const [recipe, setRecipe] = useAtom(recipeArrayAtom);
+    const [uri, setUri] = useState<Array<string> | null>(null);
 
     const cameraRef = useRef<CameraView>(null);
 
@@ -38,21 +40,15 @@ export default function CameraPage() {
       //get picture
       async function takePicture() {
         const photo = await cameraRef.current?.takePictureAsync();
-        setUri(photo?.uri);
+        setUri([photo?.uri]);
       }
 
       async function sendReceivePicture() {
         const information = await sendImageToOpenAI(uri);
         console.log(information);
         //set atoms so it can later be stored in app cache
-        setRecipe({
-          recipeName: information.recipeName,
-          ingredients: information.ingredients,
-          time: information.time,
-          direction: information.direction,
-          servings: information.servings,
-          imageUrl: information.imageUrl
-        })
+        //information is an array of objects, so check if recipes already has stuff and set as state
+        setRecipe((e) => [...e, ...information])
       }
 
       function picture() {
@@ -100,9 +96,9 @@ export default function CameraPage() {
         }
 
       return (
-        <View>
+        <View style={tw`${containerStlye}`}>
             {
-                uri ? picture() : cameraRender()
+                !uri ? picture() : cameraRender()
             }
         </View>
       );
